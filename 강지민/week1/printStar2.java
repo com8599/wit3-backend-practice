@@ -1,3 +1,5 @@
+package week1;
+
 public class printStar2 {
     public static void main(String[] args) {
         // 다이아몬드 상단

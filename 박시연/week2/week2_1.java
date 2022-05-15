@@ -1,3 +1,5 @@
+package week2;
+
 public class week2_1 {
 
     public static void printstart() {

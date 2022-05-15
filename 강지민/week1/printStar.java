@@ -1,3 +1,5 @@
+package week1;
+
 public class printStar {
     public static void main(String[] args) {
         // 방법 1

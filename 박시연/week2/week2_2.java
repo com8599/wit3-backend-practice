@@ -1,3 +1,5 @@
+package week2;
+
 public class week2_2 {
 
     public static void printstar() {
