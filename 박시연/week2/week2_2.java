@@ -1,5 +1,8 @@
-public class week1_2 {
-    public static void main(String[] args) {
+package week2;
+
+public class week2_2 {
+
+    public static void printstar() {
         for (int i = 1; i <= 4; i++) {
             for (int j = 1; j <= 4 - i; j++) {
                 System.out.print(" ");
@@ -19,4 +22,9 @@ public class week1_2 {
             System.out.println();
         }
     }
+
+    public static void main(String[] args) {
+        printstar();
+    }
+
 }
