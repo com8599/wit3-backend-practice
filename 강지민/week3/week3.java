@@ -1,7 +1,5 @@
 package week3;
 
-import java.util.Scanner;
-
 public class week3 {
     public static void main(String[] args) {
         parentWeek3 pw = new parentWeek3();
