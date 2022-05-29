@@ -33,12 +33,22 @@ public class MemberApiController {
         return "redirect:/member/list";
     }
 
+    @RequestMapping(value = "/mod/{id}",method = RequestMethod.GET)
+    public String mod(@PathVariable Long id, Model model) {
+        model.addAttribute("data", memberService.findOne(id));
+        return "member/mod";
+    }
+
+    @RequestMapping(value = "/mod",method = RequestMethod.POST)
+    public String postMod(Member member) {
+        memberService.register(member);
+        return "redirect:/member/list";
+    }
+
     @RequestMapping("/del/{id}")
     public String del(@PathVariable Long id) {
         memberService.delete(id);
         return "redirect:/member/list";
     }
-
-
 
 }
