@@ -17,9 +17,9 @@ public class MemberTest {
     @Test
     public void save() {
         Member member = new Member();
-        member.setId(4L);
-        member.setEmail("jimin112688@hanmail.net");
-        member.setPassword("simon1126");
+//        member.setId(4L);
+//        member.setEmail("jimin112688@hanmail.net");
+//        member.setPassword("simon1126");
         memberRepository.save(member);
     }
 
