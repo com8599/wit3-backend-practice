@@ -22,8 +22,9 @@ public class MemberService {
         return list;
     }
 
-    public Optional<Member> findOne(Long id) {
-        return memberRepository.findById(id);
+    public Member findOne(Long id) {
+        Optional<Member> member = memberRepository.findById(id);
+        return member.get();
     }
 
     public void delete(Long id) {
