@@ -1,1 +1,20 @@
+spring:
+  h2:
+    console:
+      enabled: true
+    port: 8080
+  profiles:
+    active: local
+  datasource:
+    hikari:
+      jdbc-url: jdbc:h2:./mem/testdb
+      driver-class-name: org.h2.Driver
+      username: sa
+      password:
 
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_wql:true
