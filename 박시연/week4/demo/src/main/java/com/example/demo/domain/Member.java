@@ -1,6 +1,4 @@
 package com.example.demo.domain;
-
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
 
@@ -11,18 +9,32 @@ import javax.persistence.Id;
 
 
 @Entity
-@Builder
 @NoArgsConstructor
-
-//AllArgsConstructor 달아주면 Builder + NoArgs 에러 X
-@AllArgsConstructor
 public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String email;
 
     private String password;
+
+    public Long getId(){
+        return this.id;
+    }
+
+    public String getEmail(){
+        return this.email;
+    }
+
+    public void update(Long id, String email){
+        this.id= id;
+        this.email = email;
+    }
+
+    @Builder
+    public Member(Long id, String email){
+        this.id = id;
+        this.email = email;
+    }
 
 }

@@ -1,5 +1,7 @@
 package com.example.demo.service;
 
+import com.example.demo.controller.dto.MemberResponseDto;
+import com.example.demo.controller.dto.MemberSaveRequestDto;
 import com.example.demo.domain.Member;
 import com.example.demo.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -16,19 +18,28 @@ public class MemberService {
     private final MemberRepository memberRepository;
 
     //create
-    public void save(Member member) {
-        memberRepository.save(member);
+    public Long save(MemberSaveRequestDto requestDto) {
+        return memberRepository.save(requestDto.toEntity()).getId();
     }
 
 
     //read
-    public void readOne(Long id){
-        memberRepository.findById(id).orElse(null);
+    public MemberResponseDto readOne(Long id){
+        Member entity = memberRepository.findById(id).orElse(null);
+        return new MemberResponseDto(entity);
     }
 
     public List<Member> readAll() {
-        memberRepository.findAll();
-        return null;
+        List<Member> listMember= memberRepository.findAll();
+        return listMember;
+    }
+
+    //update
+
+    public Long update(Long id, MemberSaveRequestDto requestDto){
+        Member member = memberRepository.findById(id).orElseThrow(null);
+        member.update(requestDto.getId(), requestDto.getEmail());
+        return id;
     }
 
 
