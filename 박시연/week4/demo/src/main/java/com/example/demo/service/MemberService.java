@@ -3,38 +3,41 @@ package com.example.demo.service;
 import com.example.demo.domain.Member;
 import com.example.demo.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
+
 
 @Service
 @RequiredArgsConstructor
 public class MemberService {
+
+    //비즈니스 로직에 관련하는 모든 코드는 여기에
     private final MemberRepository memberRepository;
-    @Autowired
-    private final MemberService memberService;
 
-
-    public static Member getMemberByMemberId(String id) {
-        return MemberService.getMemberByMemberId(id);
+    //create
+    public void save(Member member) {
+        memberRepository.save(member);
     }
 
-    public static Member registerMember(Member member) {
-        return MemberService.registerMember(member);
+
+    //read
+    public void readOne(Long id){
+        memberRepository.findById(id).orElse(null);
     }
 
-    public List<Member> getAllMembers() {
-        return memberService.getAllMembers();
+    public List<Member> readAll() {
+        memberRepository.findAll();
+        return null;
     }
 
-    public void removeMember(){
-        return memberService.removeMember();
+
+    //delete
+
+    public void delete(Long id){
+        memberRepository.deleteById(id);
     }
 
-    public void modifyMember() {
-        MemberService.modifyMember();
-    }
+
+
 }
