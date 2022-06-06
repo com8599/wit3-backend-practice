@@ -18,13 +18,12 @@ public class MemberService {
     }
 
     public List<Member> findMembers() {
-        List<Member> list = memberRepository.findAll();
-        return list;
+        return memberRepository.findAll();
     }
 
     public Member findOne(Long id) {
         Optional<Member> member = memberRepository.findById(id);
-        return member.get();
+        return member.orElse(null);
     }
 
     public void delete(Long id) {

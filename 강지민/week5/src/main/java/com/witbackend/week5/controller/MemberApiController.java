@@ -5,55 +5,54 @@ import com.witbackend.week5.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping(value = "/member")
+@RequestMapping(value = "member")
 public class MemberApiController {
     private final MemberService memberService;
+    private static final String REDIRECT_TO_LIST = "redirect:/member/list";
 
     // 목록
-    @RequestMapping("/list")
+    @GetMapping("list")
     public String list(Model model) {
         model.addAttribute("list", memberService.findMembers());
         return "member/list";
     }
 
     // 등록 jsp
-    @RequestMapping(value = "/add", method = RequestMethod.GET)
+    @GetMapping(value = "add")
     public String add() {
         return "member/add";
     }
     
     // 등록 post 통신
-    @RequestMapping(value = "/add", method = RequestMethod.POST)
+    @PostMapping(value = "add")
     public String postAdd(Member member) {
         memberService.register(member);
-        return "redirect:/member/list";
+        return REDIRECT_TO_LIST;
     }
 
     // 수정 jsp
-    @RequestMapping(value = "/mod/{id}", method = RequestMethod.GET)
+    @GetMapping(value = "mod/{id}")
     public String mod(@PathVariable Long id, Model model) {
         model.addAttribute("data", memberService.findOne(id));
         return "member/mod";
     }
 
     // 수정 post 통신
-    @RequestMapping(value = "/mod/{id}", method = RequestMethod.POST)
+    @PostMapping(value = "mod/{id}")
     public String postMod(Member member) {
         memberService.register(member);
-        return "redirect:/member/list";
+        return REDIRECT_TO_LIST;
     }
 
     // 삭제
-    @RequestMapping("/del/{id}")
+    @GetMapping("del/{id}")
     public String del(@PathVariable Long id) {
         memberService.delete(id);
-        return "redirect:/member/list";
+        return REDIRECT_TO_LIST;
     }
 
 }
