@@ -1,7 +1,7 @@
-package com.witbackend.week5.controller;
+package com.witbackend.week6.controller;
 
-import com.witbackend.week5.domain.Member;
-import com.witbackend.week5.service.MemberService;
+import com.witbackend.week6.domain.Member;
+import com.witbackend.week6.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping(value = "member")
+@RequestMapping(value = "members")
 public class MemberApiController {
     private final MemberService memberService;
     private static final String REDIRECT_TO_LIST = "redirect:/member/list";
