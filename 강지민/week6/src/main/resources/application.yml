@@ -1,0 +1,22 @@
+spring:
+#    datasource:
+#        url: jdbc:h2:tcp://localhost/~/test
+#        driver-class-name: org.h2.Driver
+#        username: jimin
+    datasource:
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://tulip-database1.c8maqvqboyme.ap-northeast-2.rds.amazonaws.com:3306/
+        username: admin
+        password: rejin0421
+    jpa:
+        hibernate:
+            ddl-auto: update
+            show-sql: 'true'
+        properties:
+            hibernate:
+                globally_quoted_identifiers: 'true'
+                format_sql: 'true'
+    mvc:
+        view:
+            prefix: /WEB-INF/
+            suffix: .jsp
