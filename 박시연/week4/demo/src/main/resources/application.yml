@@ -1,8 +1,9 @@
 spring:
   datasource: jdbc
-  url: jdbc:mysql://wit-database-1.cnasbbajy1da.ap-northeast-2.rds.amazonaws.com::3306/wit-database-1
-  username: admin
-  password: witdatabasepw
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://wit-database-1.cnasbbajy1da.ap-northeast-2.rds.amazonaws.com:3306/wit-database-1
+    username: admin
+    password: witdatabasepw
 
   jpa:
     hibernate:
