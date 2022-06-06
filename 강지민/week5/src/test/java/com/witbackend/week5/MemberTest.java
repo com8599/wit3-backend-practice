@@ -5,9 +5,7 @@ import com.witbackend.week5.repository.MemberRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 
 @SpringBootTest
 public class MemberTest {
@@ -17,9 +15,9 @@ public class MemberTest {
     @Test
     public void save() {
         Member member = new Member();
-//        member.setId(4L);
-//        member.setEmail("jimin112688@hanmail.net");
-//        member.setPassword("simon1126");
+        member.setId(4L);
+        member.setEmail("jimin112688@hanmail.net");
+        member.setPassword("simon1126");
         memberRepository.save(member);
     }
 
