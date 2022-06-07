@@ -1,7 +1,7 @@
-package com.witbackend.week5.service;
+package com.witbackend.week6.service;
 
-import com.witbackend.week5.domain.Member;
-import com.witbackend.week5.repository.MemberRepository;
+import com.witbackend.week6.domain.Member;
+import com.witbackend.week6.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,8 +13,8 @@ import java.util.Optional;
 public class MemberService {
     private final MemberRepository memberRepository;
 
-    public void register(Member member) {
-        memberRepository.save(member);
+    public Long register(Member member) {
+        return memberRepository.save(member).getId();
     }
 
     public List<Member> findMembers() {

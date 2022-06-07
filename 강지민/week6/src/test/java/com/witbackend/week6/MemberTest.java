@@ -1,7 +1,7 @@
-package com.witbackend.week5;
+package com.witbackend.week6;
 
-import com.witbackend.week5.domain.Member;
-import com.witbackend.week5.repository.MemberRepository;
+import com.witbackend.week6.domain.Member;
+import com.witbackend.week6.repository.MemberRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
