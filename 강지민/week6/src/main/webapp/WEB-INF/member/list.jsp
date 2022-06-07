@@ -26,7 +26,10 @@
                 <td>${post.email}</td>
                 <td>${post.password}</td>
                 <td><button type="button" onclick="location.href='mod/${post.id}'">수정</button></td>
-                <td><button type="button" onclick="location.href='del/${post.id}'">삭제</button></td>
+                <form name="delete" action="/members/del/${post.id}" method="POST">
+                    <input type="hidden" name="_method" value="delete" />
+                    <td><button type="submit">삭제</button></td>
+                </form>
             </tr>
         </c:forEach>
     </table>

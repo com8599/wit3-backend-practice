@@ -28,7 +28,7 @@ public class MemberApiController {
     }
 
     // 삭제
-    @GetMapping("del/{id}")
+    @DeleteMapping("del/{id}")
     public String del(@PathVariable Long id) {
         memberService.delete(id);
         return REDIRECT_TO_LIST;
