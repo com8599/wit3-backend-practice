@@ -26,15 +26,21 @@ public class Member {
         return this.email;
     }
 
-    public void update(Long id, String email){
+    public String getPassword() {
+        return this.password;
+    }
+
+    public void update(Long id, String email, String password){
         this.id= id;
         this.email = email;
+        this.password = password;
     }
 
     @Builder
-    public Member(Long id, String email){
+    public Member(Long id, String email, String password){
         this.id = id;
         this.email = email;
+        this.password = password;
     }
 
 }

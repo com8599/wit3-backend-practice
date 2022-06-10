@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.controller.dto.MemberResponseDto;
 import com.example.demo.controller.dto.MemberSaveRequestDto;
+import com.example.demo.controller.dto.MemberUpdateRequestDto;
 import com.example.demo.domain.Member;
 import com.example.demo.service.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -50,8 +51,8 @@ public class MemberApiController {
     //UPDATE
 
     //특정하는 작업 먼저 하고
-    @PostMapping("/update/{id}")
-    public String updateMember(@PathVariable Long id, @RequestBody MemberSaveRequestDto requestDto){
+    @PutMapping("/{id}")
+    public String updateMember(@PathVariable Long id, @RequestBody MemberUpdateRequestDto requestDto){
         memberService.update(id, requestDto);
         return "update";
     }

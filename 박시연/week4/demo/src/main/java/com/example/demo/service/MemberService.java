@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 import com.example.demo.controller.dto.MemberResponseDto;
 import com.example.demo.controller.dto.MemberSaveRequestDto;
+import com.example.demo.controller.dto.MemberUpdateRequestDto;
 import com.example.demo.domain.Member;
 import com.example.demo.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -36,9 +37,9 @@ public class MemberService {
 
     //update
 
-    public Long update(Long id, MemberSaveRequestDto requestDto){
-        Member member = memberRepository.findById(id).orElseThrow(null);
-        member.update(requestDto.getId(), requestDto.getEmail());
+    public Long update(Long id, MemberUpdateRequestDto requestDto){
+        Member member = memberRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("일치하는 id가 없습니다"));
+        member.update(requestDto.getId(), requestDto.getEmail(), requestDto.getPassword());
         return id;
     }
 
