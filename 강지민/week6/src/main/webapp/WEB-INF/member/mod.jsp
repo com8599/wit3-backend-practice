@@ -11,12 +11,13 @@
     <title>Title</title>
 </head>
 <body>
-    <form name="f" action="/member/mod/${data.id}" method="POST">
+    <form name="f" action="/members/mod/${data.id}" method="POST">
+        <input type="hidden" name="_method" value="put">
         Email: <input type="text" name="email" value="${data.email}">
         <br>
         Password: <input type="password" name="password" value="${data.password}">
         <br>
-        <input type="submit" value="수정">
+        <input type="submit" role="button" value="수정">
     </form>
 </body>
 </html>
