@@ -25,7 +25,7 @@ public class MemberApiController {
 
     //postmapping은 마지막에 붙여주기
     //@RequestMapping(value = "/create", method = RequestMethod.POST)
-    @PostMapping("/create")
+    @PostMapping()
     public Long createMember(@RequestBody MemberSaveRequestDto requestDto){
         return memberService.save(requestDto);
     }
@@ -61,7 +61,6 @@ public class MemberApiController {
     //DELETE
 
     //id로 어떤거 지울지 특정
-    @RequestMapping("/delete/{id}")
     public void deleteMember(@PathVariable Long id){
         memberService.delete(id);
     }
