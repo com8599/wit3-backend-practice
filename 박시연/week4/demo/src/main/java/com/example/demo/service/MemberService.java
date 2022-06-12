@@ -39,7 +39,7 @@ public class MemberService {
 
     public Long update(Long id, MemberUpdateRequestDto requestDto){
         Member member = memberRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("일치하는 id가 없습니다"));
-        member.update(requestDto.getId(), requestDto.getEmail(), requestDto.getPassword());
+        member.update(requestDto.getEmail(), requestDto.getPassword());
         return id;
     }
 

@@ -30,8 +30,7 @@ public class Member {
         return this.password;
     }
 
-    public void update(Long id, String email, String password){
-        this.id= id;
+    public void update(String email, String password){
         this.email = email;
         this.password = password;
     }

@@ -10,15 +10,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class MemberUpdateRequestDto {
 
-    private Long id;
 
     private String password;
 
     private String email;
 
     @Builder
-    public MemberUpdateRequestDto(Long id, String password, String email){
-        this.id=id;
+    public MemberUpdateRequestDto(String password, String email){
         this.password=password;
         this.email=email;
     }
