@@ -1,12 +1,12 @@
 package com.witbackend.week6.controller.view;
 
+import com.witbackend.week6.dto.MemberDTO.MemberResponseDTO;
 import com.witbackend.week6.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+
 
 @Controller
 @RequiredArgsConstructor
@@ -33,5 +33,4 @@ public class MemberViewController {
         model.addAttribute("data", memberService.findOne(id));
         return "member/mod";
     }
-
 }
