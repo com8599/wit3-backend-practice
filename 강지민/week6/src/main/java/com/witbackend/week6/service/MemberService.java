@@ -1,33 +1,43 @@
 package com.witbackend.week6.service;
 
 import com.witbackend.week6.domain.Member;
+import com.witbackend.week6.dto.MemberDTO.MemberRequestDTO;
+import com.witbackend.week6.dto.MemberDTO.MemberResponseDTO;
 import com.witbackend.week6.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class MemberService {
     private final MemberRepository memberRepository;
 
-    public Long register(Member member) {
-        return memberRepository.save(member).getId();
+    public Long register(MemberRequestDTO memberRequestDTO) {
+        Member member = memberRequestDTO.toEntity();
+        memberRepository.save(member);
+        return member.getId();
     }
 
-    public List<Member> findMembers() {
-        return memberRepository.findAll();
+    public List<MemberResponseDTO> findMembers() {
+        List<Member> memberList = memberRepository.findAll();
+        List<MemberResponseDTO> dtoList = new ArrayList<>();
+
+        for (Member member : memberList) {
+            dtoList.add(new MemberResponseDTO(member));
+        }
+        return dtoList;
+//         return memberList.stream().map(MemberResponseDTO::new).collect(Collectors.toList());
     }
 
-    public Member findOne(Long id) {
-        Optional<Member> member = memberRepository.findById(id);
-        return member.orElse(null);
+    public MemberResponseDTO findOne(Long id) {
+        Member member = memberRepository.findById(id).orElse(null);
+        return new MemberResponseDTO(member);
     }
 
     public void delete(Long id) {
         memberRepository.deleteById(id);
     }
-
 }
