@@ -32,6 +32,8 @@ dependencies {
     implementation "org.apache.tomcat.embed:tomcat-embed-jasper"
     runtimeOnly 'com.h2database:h2'
     runtimeOnly 'mysql:mysql-connector-java'
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.12.7'
+
 }
 
 tasks.named('test') {
