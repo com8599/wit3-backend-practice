@@ -12,7 +12,7 @@
     <title>Title</title>
 </head>
 <body>
-    <form name="f" action="add" method="POST">
+    <form id="form" action="add" method="POST">
         EMAIL: <input type="text" name="email">
         <br>
         PWD: <input type="password" name="password">
@@ -20,4 +20,6 @@
         <input type="submit" value="등록">
     </form>
 </body>
+<script>
+</script>
 </html>
