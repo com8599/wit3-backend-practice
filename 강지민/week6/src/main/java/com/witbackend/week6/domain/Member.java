@@ -1,5 +1,6 @@
 package com.witbackend.week6.domain;
 
+import com.witbackend.week6.dto.MemberDTO.MemberRequestDTO;
 import lombok.*;
 
 import javax.persistence.Entity;
@@ -9,8 +10,9 @@ import javax.persistence.Id;
 
 @Entity
 @Getter
-@Setter
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
