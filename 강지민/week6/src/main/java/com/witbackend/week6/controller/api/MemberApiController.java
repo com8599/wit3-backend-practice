@@ -4,7 +4,6 @@ import com.witbackend.week6.dto.MemberDTO.MemberRequestDTO;
 import com.witbackend.week6.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
