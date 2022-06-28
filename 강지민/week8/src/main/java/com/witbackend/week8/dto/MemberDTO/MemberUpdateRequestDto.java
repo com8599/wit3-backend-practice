@@ -1,6 +1,5 @@
-package com.witbackend.week8.dto.MemberDTO;
+package com.witbackend.week8.dto.MemberDto;
 
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -11,7 +10,6 @@ public class MemberUpdateRequestDto {
 
     private String password;
 
-    @Builder
     public MemberUpdateRequestDto(String email, String password) {
         this.email = email;
         this.password = password;
