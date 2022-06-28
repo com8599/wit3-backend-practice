@@ -1,20 +1,18 @@
-package com.witbackend.week8.dto.MemberDTO;
+package com.witbackend.week8.dto.MemberDto;
 
 import com.witbackend.week8.domain.Member;
 import lombok.*;
 
-@Data
-@ToString
+@Getter
 @AllArgsConstructor
-@Builder
-public class MemberResponseDTO {
+public class MemberResponseDto {
     private Long id;
 
     private String email;
 
     private String password;
 
-    public MemberResponseDTO(Member member) {
+    public MemberResponseDto(Member member) {
         this.id = member.getId();
         this.email = member.getEmail();
         this.password = member.getPassword();
