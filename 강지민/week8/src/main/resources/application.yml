@@ -5,7 +5,7 @@ spring:
 #        username: jimin
     datasource:
         driver-class-name: com.mysql.cj.jdbc.Driver
-        url: jdbc:mysql://wit-backend-practice.c8maqvqboyme.ap-northeast-2.rds.amazonaws.com:3306/week5
+        url: jdbc:mysql://wit-backend-practice.cpadiqsprb8b.ap-northeast-2.rds.amazonaws.com:3306/week8
         username: admin
         password: rejin0421
     jpa:
