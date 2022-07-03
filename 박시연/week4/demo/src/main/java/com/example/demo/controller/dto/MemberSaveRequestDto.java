@@ -9,21 +9,18 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 
 public class MemberSaveRequestDto {
-    private Long id;
     private String email;
 
     private String password;
 
     @Builder
-    public MemberSaveRequestDto(Long id, String email, String password){
-        this.id=id;
+    public MemberSaveRequestDto(String email, String password){
         this.email=email;
         this.password=password;
     }
 
     public Member toEntity(){
         return Member.builder()
-                .id(id)
                 .email(email)
                 .password(password)
                 .build();

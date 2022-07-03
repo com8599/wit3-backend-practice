@@ -6,8 +6,12 @@ import com.example.demo.controller.dto.MemberUpdateRequestDto;
 import com.example.demo.domain.Member;
 import com.example.demo.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -30,10 +34,11 @@ public class MemberService {
         return new MemberResponseDto(entity);
     }
 
-    public List<Member> readAll() {
-        List<Member> listMember= memberRepository.findAll();
+    public List<MemberResponseDto> readAllMembers(int page, Pageable pageable) {
+        List<MemberResponseDto> listMember= memberRepository.findAllBy(PageRequest.of(page, 5));
         return listMember;
     }
+
 
     //update
 
@@ -50,6 +55,18 @@ public class MemberService {
         memberRepository.deleteById(id);
     }
 
+
+
+    public List<MemberResponseDto> findMembersByPageRequest(Pageable pageable){
+        PageRequest pageRequest = PageRequest.of(0,3);
+        List<Member> members = (List<Member>) memberRepository.findAll(pageRequest);
+
+        List<MemberResponseDto> result = new ArrayList<>();
+        for(Member member : members){
+            result.add(new MemberResponseDto(member));
+        }
+        return memberRepository.findAllBy(pageable);
+    }
 
 
 }
