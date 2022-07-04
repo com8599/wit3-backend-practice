@@ -21,7 +21,7 @@ public class MemberApiController {
 
     // 목록 GET
     @GetMapping
-    public ResponseEntity<List<MemberResponseDto>> list(@RequestParam int page, Pageable pageable) {
+    public ResponseEntity<List<MemberResponseDto>> list(@RequestParam(defaultValue = "0") int page, Pageable pageable) {
         return new ResponseEntity<>(memberService.findMembers(page, pageable), HttpStatus.OK);
     }
 
