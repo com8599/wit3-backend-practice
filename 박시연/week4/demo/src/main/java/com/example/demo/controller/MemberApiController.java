@@ -36,8 +36,8 @@ public class MemberApiController {
     //postmapping은 마지막에 붙여주기
     //@RequestMapping(value = "/create", method = RequestMethod.POST)
     @PostMapping()
-    public Long createMember(@RequestBody MemberSaveRequestDto requestDto){
-        return memberService.save(requestDto);
+    public ResponseEntity<MemberResponseDto> createMember(@RequestBody MemberSaveRequestDto requestDto){
+        return new ResponseEntity<>(memberService.save(requestDto), HttpStatus.OK);
     }
 
 

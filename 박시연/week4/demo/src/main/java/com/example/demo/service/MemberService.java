@@ -23,8 +23,10 @@ public class MemberService {
     private final MemberRepository memberRepository;
 
     //create
-    public Long save(MemberSaveRequestDto requestDto) {
-        return memberRepository.save(requestDto.toEntity()).getId();
+    public MemberResponseDto save(MemberSaveRequestDto requestDto) {
+    Member member = MemberSaveRequestDto.toEntity();
+    memberRepository.save(member);
+    return new MemberResponseDto(member);
     }
 
 
