@@ -26,8 +26,7 @@ public class MemberService {
 
     // List<Member> -> List<MemberResponseDTO>로 변환
     public List<MemberResponseDto> findMembers(int page, Pageable pageable) {
-        List<MemberResponseDto> memberList = memberRepository.findAllBy(PageRequest.of(page, 3));
-        return memberList;
+        return memberRepository.findAllBy(PageRequest.of(page, 3));
     }
 
     public MemberResponseDto findOne(Long id) {
