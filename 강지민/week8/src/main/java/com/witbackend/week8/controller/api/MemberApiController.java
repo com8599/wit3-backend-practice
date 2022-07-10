@@ -22,7 +22,7 @@ public class MemberApiController {
     // 목록 GET
     @GetMapping
     public ResponseEntity<List<MemberResponseDto>> list(@RequestParam(defaultValue = "0") int page, Pageable pageable) {
-        return new ResponseEntity<>(memberService.findMembers(page, pageable), HttpStatus.OK);
+        return ResponseEntity.ok(memberService.findMembers(page, pageable));
     }
 
     // 수정 GET
@@ -31,19 +31,19 @@ public class MemberApiController {
         if (memberService.findOne(id) == null) {
             return ResponseEntity.notFound().build();
         }
-        return new ResponseEntity<>(memberService.findOne(id), HttpStatus.OK);
+        return ResponseEntity.ok(memberService.findOne(id));
     }
 
     // 등록 POST
     @PostMapping
     public ResponseEntity<MemberResponseDto> postAdd(@RequestBody MemberRequestDto memberRequestDTO) {
-        return new ResponseEntity<>(memberService.register(memberRequestDTO), HttpStatus.OK);
+        return ResponseEntity.ok(memberService.register(memberRequestDTO));
     }
 
     // 수정 PUT
     @PutMapping("{id}")
     public ResponseEntity<MemberResponseDto> putMod(@RequestBody MemberUpdateRequestDto memberUpdateRequestDto, @PathVariable Long id) {
-        return new ResponseEntity<>(memberService.updateMember(id, memberUpdateRequestDto), HttpStatus.OK);
+        return ResponseEntity.ok(memberService.updateMember(id, memberUpdateRequestDto));
     }
 
     // 삭제 DELETE
