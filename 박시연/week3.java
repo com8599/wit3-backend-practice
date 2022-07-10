@@ -37,3 +37,5 @@ public class week3 {
         printstar();
     }
 }
+
+class 
