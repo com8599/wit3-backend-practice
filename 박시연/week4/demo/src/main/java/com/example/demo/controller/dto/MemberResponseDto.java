@@ -14,4 +14,5 @@ public class MemberResponseDto {
         this.id = entity.getId();
         this.email = entity.getEmail();
     }
+
 }
