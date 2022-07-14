@@ -1,13 +1,15 @@
 package com.witbackend.week8.controller.api;
 
+import com.witbackend.week8.domain.SearchCondition;
+import com.witbackend.week8.domain.SearchType;
 import com.witbackend.week8.dto.MemberDto.MemberRequestDto;
 import com.witbackend.week8.dto.MemberDto.MemberResponseDto;
 import com.witbackend.week8.dto.MemberDto.MemberUpdateRequestDto;
 import com.witbackend.week8.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,13 +18,20 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping(value = "members")
 public class MemberApiController {
-    private final MemberService memberService;
-    private static final String REDIRECT_TO_LIST = "/members";
 
-    // 목록 GET
+    private final MemberService memberService;
+
+    // 검색 기능 포함 GET
     @GetMapping
-    public ResponseEntity<List<MemberResponseDto>> list(@RequestParam(defaultValue = "0") int page, Pageable pageable) {
-        return ResponseEntity.ok(memberService.findMembers(page, pageable));
+    public ResponseEntity<List<MemberResponseDto>> searchList(@RequestParam(defaultValue = "0") int page,
+                                                              Pageable pageable,
+                                                              SearchType searchType,
+                                                              String keyword) {
+        if (StringUtils.hasText(keyword)) {
+            return ResponseEntity.ok(memberService.findSearchMembers(page, pageable, new SearchCondition(keyword, searchType)));
+        } else {
+            return ResponseEntity.ok(memberService.findMembers(page, pageable));
+        }
     }
 
     // 수정 GET
