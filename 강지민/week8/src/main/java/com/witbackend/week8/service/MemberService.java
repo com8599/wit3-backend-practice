@@ -5,6 +5,7 @@ import com.witbackend.week8.domain.SearchCondition;
 import com.witbackend.week8.dto.MemberDto.MemberRequestDto;
 import com.witbackend.week8.dto.MemberDto.MemberResponseDto;
 import com.witbackend.week8.dto.MemberDto.MemberUpdateRequestDto;
+import com.witbackend.week8.repository.MemberCustomRepository;
 import com.witbackend.week8.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -18,6 +19,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class MemberService {
     private final MemberRepository memberRepository;
+    private final MemberCustomRepository memberCustomRepository;
 
     // RequestDTO -> Entity로 변환
     public MemberResponseDto register(MemberRequestDto memberRequestDTO) {
@@ -33,7 +35,7 @@ public class MemberService {
 
     // 검색 포함 목록보기
     public List<MemberResponseDto> findSearchMembers(int page, Pageable pageable, SearchCondition condition) {
-        List<Member> search = memberRepository.search(condition, PageRequest.of(page, 3));
+        List<Member> search = memberCustomRepository.search(condition, PageRequest.of(page, 3));
         return search.stream().map(MemberResponseDto::new).collect(Collectors.toList());
     }
 
