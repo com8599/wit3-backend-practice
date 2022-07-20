@@ -51,4 +51,9 @@ public class MemberApiController {
         memberService.delete(id);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/hello")
+    public ResponseEntity<String> hello() {
+        return ResponseEntity.ok("hello");
+    }
 }
