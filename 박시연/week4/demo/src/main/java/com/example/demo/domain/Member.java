@@ -1,25 +1,56 @@
 package com.example.demo.domain;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.Set;
 
 
 @Entity
+@Table(name="member")
+@Getter
+@Setter@Builder
+@AllArgsConstructor
 @NoArgsConstructor
 public class Member {
+
+
+    @JsonIgnore
     @Id
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "username", length = 50, unique = true)
+    private String username;
+
+    @Column(name="email", length = 100)
     private String email;
 
+    @Column(name="password", length = 100)
     private String password;
+
+
+    @JsonIgnore
+    @Column(name="activated")
+    //활성화 여부
+    private boolean activated;
+
+    @ManyToMany
+    @JoinTable(
+            name = "user_authority",
+            joinColumns = {@JoinColumn(name = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "authority_name")}
+    )
+
+    private Set<Authority> authorities;
 
     public Long getId(){
         return this.id;
+    }
+
+    public String getUsername(){
+        return this.email;
     }
 
     public String getEmail(){
@@ -36,8 +67,9 @@ public class Member {
     }
 
     @Builder
-    public Member(Long id, String email, String password){
+    public Member(Long id, String username, String email, String password){
         this.id = id;
+        this.username = username;
         this.email = email;
         this.password = password;
     }
