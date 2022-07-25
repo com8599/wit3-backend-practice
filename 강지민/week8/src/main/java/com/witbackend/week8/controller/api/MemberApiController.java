@@ -52,12 +52,14 @@ public class MemberApiController {
 
     // 수정 PUT
     @PutMapping("{id}")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<MemberResponseDto> putMod(@RequestBody MemberUpdateRequestDto memberUpdateRequestDto, @PathVariable Long id) {
         return ResponseEntity.ok(memberService.updateMember(id, memberUpdateRequestDto));
     }
 
     // 삭제 DELETE
     @DeleteMapping("{id}")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity del(@PathVariable Long id) {
         memberService.delete(id);
         return ResponseEntity.noContent().build();

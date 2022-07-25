@@ -4,6 +4,7 @@ import com.witbackend.week8.jwt.JwtAccessDeniedHandler;
 import com.witbackend.week8.jwt.JwtAuthenticationEntryPoint;
 import com.witbackend.week8.jwt.JwtSecurityConfig;
 import com.witbackend.week8.jwt.TokenProvider;
+import io.swagger.models.HttpMethod;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -80,8 +81,8 @@ public class WebSecurityConfig {
                 .antMatchers("/api/signup").permitAll()
 
                 // .antMatchers(HttpMethod.POST, "").authenticate()
-                .antMatchers("/memebers").permitAll()
-                .antMatchers("/members/**").permitAll()
+                .antMatchers(String.valueOf(HttpMethod.POST), "/members").authenticated()
+                .antMatchers(String.valueOf(HttpMethod.PUT), "/members").authenticated()
 
                 .anyRequest().permitAll()
 
