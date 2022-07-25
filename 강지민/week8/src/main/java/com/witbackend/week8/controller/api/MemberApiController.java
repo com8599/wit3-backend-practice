@@ -7,6 +7,7 @@ import com.witbackend.week8.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,7 +17,6 @@ import java.util.List;
 @RequestMapping(value = "members")
 public class MemberApiController {
     private final MemberService memberService;
-    private static final String REDIRECT_TO_LIST = "/members";
 
     // 목록 GET
     @GetMapping
@@ -35,6 +35,7 @@ public class MemberApiController {
 
     // 등록 POST
     @PostMapping
+    @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<MemberResponseDto> postAdd(@RequestBody MemberRequestDto memberRequestDTO) {
         return ResponseEntity.ok(memberService.register(memberRequestDTO));
     }
