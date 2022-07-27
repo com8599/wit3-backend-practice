@@ -3,7 +3,7 @@ spring:
     pathmatch:
       matching-strategy: ant_path_matcher
   datasource:
-      url: jdbc:h2:tcp://localhost/~/test;NON_KEYWORDS=USER
+      url: jdbc:h2:mem:test;NON_KEYWORDS=USER;  # user inmemory for running on other environment
       driver-class-name: org.h2.Driver
       username: jimin
 #  datasource:
@@ -19,6 +19,7 @@ spring:
     properties:
       hibernate:
         format_sql: 'true'
+        # data를 init하는 data.sql문을 추가하고 세팅해주세용
     show-sql:
       true
 
@@ -27,4 +28,4 @@ jwt:
   #HS512 알고리즘을 사용할 것이기 때문에 512bit, 즉 64byte 이상의 secret key를 사용해야 한다.
   #echo 'silvernine-tech-spring-boot-jwt-tutorial-secret-silvernine-tech-spring-boot-jwt-tutorial-secret'|base64
   secret: c2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQtc2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQK
-  token-validity-in-seconds: 86400
+  token-validity-in-seconds: 86400 # 24시간

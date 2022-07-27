@@ -17,10 +17,10 @@ public class User {
     @Id
     @Column(name = "user_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long userId;
+    private Long userId;    // UUID or ObjectId
 
     @Column(name = "username", length = 50, unique = true)
-    private String username;
+    private String username;    // rename to familiar name
 
     @Column(name = "password", length = 100)
     private String password;
@@ -28,8 +28,8 @@ public class User {
     @Column(name = "nickname", length = 50)
     private String nickname;
 
-    @Column(name = "activated")
-    private boolean activated;
+    @Column(name = "activated", columnDefinition = "BIT DEFAULT TRUE")
+    private boolean activated;  // init default value
 
     @ManyToMany
     @JoinTable(
