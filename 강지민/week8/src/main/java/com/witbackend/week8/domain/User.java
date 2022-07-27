@@ -28,7 +28,7 @@ public class User {
     @Column(name = "nickname", length = 50)
     private String nickname;
 
-    @Column(name = "activated")
+    @Column(name = "activated", columnDefinition = "BIT DEFAULT TRUE")
     private boolean activated;
 
     @ManyToMany

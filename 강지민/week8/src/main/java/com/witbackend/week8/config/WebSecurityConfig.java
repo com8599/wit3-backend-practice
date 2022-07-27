@@ -83,6 +83,7 @@ public class WebSecurityConfig {
                 // .antMatchers(HttpMethod.POST, "").authenticate()
                 .antMatchers(String.valueOf(HttpMethod.POST), "/members").authenticated()
                 .antMatchers(String.valueOf(HttpMethod.PUT), "/members").authenticated()
+                .antMatchers(String.valueOf(HttpMethod.GET), "/members").permitAll()
 
                 .anyRequest().permitAll()
 
