@@ -7,9 +7,10 @@ import java.util.Set;
 
 
 @Entity
-@Table(name="member")
+@Table(name="membertable")
 @Getter
-@Setter@Builder
+@Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class Member {
@@ -50,7 +51,7 @@ public class Member {
     }
 
     public String getUsername(){
-        return this.email;
+        return this.username;
     }
 
     public String getEmail(){
