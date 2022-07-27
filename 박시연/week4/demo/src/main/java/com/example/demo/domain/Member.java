@@ -7,18 +7,18 @@ import java.util.Set;
 
 
 @Entity
-@Table(name="membertable")
-@Getter
+@Getter     // get 함수를 아래에 정의 했을시 Getter 어노테이션은 삭제해주는것이 좋음
 @Setter
-@Builder
+@Builder    // 빌더도 마찬가지
 @AllArgsConstructor
 @NoArgsConstructor
+// member table
 public class Member {
 
 
     @JsonIgnore
     @Id
-    @Column(name = "id")
+    @Column(name = "id")    // rm unnecessary annotation
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -33,7 +33,7 @@ public class Member {
 
 
     @JsonIgnore
-    @Column(name="activated")
+    @Column(name="activated")   // init default value
     //활성화 여부
     private boolean activated;
 
