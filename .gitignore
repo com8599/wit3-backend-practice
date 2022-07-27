@@ -26,3 +26,4 @@ out
 hs_err_pid*
 
 *.mv.db
+*.db
