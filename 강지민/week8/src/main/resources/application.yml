@@ -3,25 +3,29 @@ spring:
     pathmatch:
       matching-strategy: ant_path_matcher
   datasource:
-      url: jdbc:h2:mem:test;NON_KEYWORDS=USER;  # user inmemory for running on other environment
-      driver-class-name: org.h2.Driver
-      username: jimin
+    url: jdbc:h2:mem:test;NON_KEYWORDS=USER;  # user inmemory for running on other environment
+    driver-class-name: org.h2.Driver
+    username: jimin
 #  datasource:
 #    driver-class-name: com.mysql.cj.jdbc.Driver
 #    url: jdbc:mysql://wit-backend-practice.cpadiqsprb8b.ap-northeast-2.rds.amazonaws.com:3306/week8
 #    username: admin
 #    password: rejin0421
   jpa:
-    defer-datasource-initialization: true
     database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
       ddl-auto: update
+    defer-datasource-initialization: true
     properties:
       hibernate:
         format_sql: 'true'
         # data를 init하는 data.sql문을 추가하고 세팅해주세용
-    show-sql:
-      true
+    show-sql: true
+  sql:
+    init:
+      mode: always
+
+
 
 jwt:
   header: Authorization

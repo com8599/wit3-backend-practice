@@ -6,18 +6,18 @@ import javax.persistence.*;
 import java.util.Set;
 
 @Entity
-@Table(name = "user")
+@Table(name = "memberInfo")
 @Getter
 @Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class User {
+public class MemberInfo {
 
     @Id
-    @Column(name = "user_id")
+    @Column(name = "member_info_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long userId;    // UUID or ObjectId
+    private Long memberInfoId;    // UUID or ObjectId
 
     @Column(name = "username", length = 50, unique = true)
     private String username;    // rename to familiar name
@@ -33,8 +33,8 @@ public class User {
 
     @ManyToMany
     @JoinTable(
-            name = "user_authority",
-            joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "user_id")},
+            name = "member_info_authority",
+            joinColumns = {@JoinColumn(name = "member_info_id", referencedColumnName = "member_info_id")},
             inverseJoinColumns = {@JoinColumn(name = "authority_name", referencedColumnName = "authority_name")})
     private Set<Authority> authorities;
 }

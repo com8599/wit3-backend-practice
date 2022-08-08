@@ -1,7 +1,7 @@
 package com.witbackend.week8.controller.api;
 
-import com.witbackend.week8.dto.login.UserDto;
-import com.witbackend.week8.service.UserService;
+import com.witbackend.week8.dto.login.MemberInfoDto;
+import com.witbackend.week8.service.MemberInfoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -15,8 +15,8 @@ import java.io.IOException;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api")
-public class UserApiController {
-    private final UserService userService;
+public class MemberInfoApiController {
+    private final MemberInfoService memberInfoService;
 
     @GetMapping("/hello")
     public ResponseEntity<String> hello() {
@@ -29,21 +29,21 @@ public class UserApiController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<UserDto> signup(
-            @Valid @RequestBody UserDto userDto
+    public ResponseEntity<MemberInfoDto> signup(
+            @Valid @RequestBody MemberInfoDto memberInfoDto
     ) {
-        return ResponseEntity.ok(userService.signup(userDto));
+        return ResponseEntity.ok(memberInfoService.signup(memberInfoDto));
     }
 
     @GetMapping("/user")
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
-    public ResponseEntity<UserDto> getMyUserInfo(HttpServletRequest request) {
-        return ResponseEntity.ok(userService.getMyUserWithAuthorities());
+    public ResponseEntity<MemberInfoDto> getMyUserInfo(HttpServletRequest request) {
+        return ResponseEntity.ok(memberInfoService.getMyUserWithAuthorities());
     }
 
     @GetMapping("/user/{username}")
     @PreAuthorize("hasAnyRole('ADMIN')")
-    public ResponseEntity<UserDto> getUserInfo(@PathVariable String username) {
-        return ResponseEntity.ok(userService.getUserWithAuthorities(username));
+    public ResponseEntity<MemberInfoDto> getUserInfo(@PathVariable String username) {
+        return ResponseEntity.ok(memberInfoService.getUserWithAuthorities(username));
     }
 }

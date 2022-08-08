@@ -2,7 +2,7 @@ package com.witbackend.week8.dto.login;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.witbackend.week8.domain.User;
+import com.witbackend.week8.domain.MemberInfo;
 import lombok.*;
 
 import javax.validation.constraints.NotNull;
@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserDto {
+public class MemberInfoDto {
 
     @NotNull
     @Size(min = 3, max = 50)
@@ -32,13 +32,13 @@ public class UserDto {
 
     private Set<AuthorityDto> authorityDtoSet;
 
-    public static UserDto from(User user) {
-        if(user == null) return null;
+    public static MemberInfoDto from(MemberInfo memberInfo) {
+        if(memberInfo == null) return null;
 
-        return UserDto.builder()
-                .username(user.getUsername())
-                .nickname(user.getNickname())
-                .authorityDtoSet(user.getAuthorities().stream()
+        return MemberInfoDto.builder()
+                .username(memberInfo.getUsername())
+                .nickname(memberInfo.getNickname())
+                .authorityDtoSet(memberInfo.getAuthorities().stream()
                         .map(authority -> AuthorityDto.builder().authorityName(authority.getAuthorityName()).build())
                         .collect(Collectors.toSet()))
                 .build();
