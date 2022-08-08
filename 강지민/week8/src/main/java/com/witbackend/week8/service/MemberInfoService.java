@@ -34,7 +34,7 @@ public class MemberInfoService {
         }
 
         Authority authority = Authority.builder()
-                .authorityName("ROLE_USER")
+                .authorityName("ROLE_USER")     // enum 화 해주세요
                 .build();
 
         MemberInfo memberInfo = MemberInfo.builder()
