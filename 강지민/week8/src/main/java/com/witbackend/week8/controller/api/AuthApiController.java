@@ -1,9 +1,14 @@
 package com.witbackend.week8.controller.api;
 
+import com.witbackend.week8.domain.RefreshToken;
 import com.witbackend.week8.dto.login.LoginDto;
+import com.witbackend.week8.dto.login.RefreshTokenRequestDto;
 import com.witbackend.week8.dto.login.TokenDto;
 import com.witbackend.week8.jwt.JwtFilter;
 import com.witbackend.week8.jwt.TokenProvider;
+import com.witbackend.week8.repository.RefreshTokenRepository;
+import com.witbackend.week8.service.MemberInfoService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,17 +24,15 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/api")
+@RequiredArgsConstructor
+@RequestMapping("api/authenticate")
 public class AuthApiController {
     private final TokenProvider tokenProvider;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
+    private final RefreshTokenRepository refreshTokenRepository;
+    private final MemberInfoService memberInfoService;
 
-    public AuthApiController(TokenProvider tokenProvider, AuthenticationManagerBuilder authenticationManagerBuilder) {
-        this.tokenProvider = tokenProvider;
-        this.authenticationManagerBuilder = authenticationManagerBuilder;
-    }
-
-    @PostMapping("/authenticate")
+    @PostMapping
     public ResponseEntity<TokenDto> authorize(@Valid @RequestBody LoginDto loginDto) {
 
         UsernamePasswordAuthenticationToken authenticationToken =
@@ -38,11 +41,24 @@ public class AuthApiController {
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        String jwt = tokenProvider.createToken(authentication);
+        String refreshToken = tokenProvider.createRefreshToken(authentication);
+
+        refreshTokenRepository.findByUserId(loginDto.getUsername())
+                .ifPresentOrElse(
+                        tokenEntity -> tokenEntity.changeToken(refreshToken),
+                        () -> refreshTokenRepository.save(RefreshToken.createToken(loginDto.getUsername(), refreshToken))
+                );
 
         HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.add(JwtFilter.AUTHORIZATION_HEADER, "Bearer " + jwt);
 
-        return new ResponseEntity<>(new TokenDto(jwt), httpHeaders, HttpStatus.OK);
+        String accessToken = tokenProvider.createToken(authentication);
+        httpHeaders.add(JwtFilter.AUTHORIZATION_HEADER, "Bearer " + accessToken);
+
+        return new ResponseEntity<>(new TokenDto(accessToken, refreshToken), httpHeaders, HttpStatus.OK);
+    }
+
+    @PostMapping("/accessToken")
+    public ResponseEntity<TokenDto> reissueAccessToken(@RequestBody RefreshTokenRequestDto refreshTokenRequestDto) {
+        return ResponseEntity.ok(memberInfoService.reissueAccessToken(refreshTokenRequestDto));
     }
 }
