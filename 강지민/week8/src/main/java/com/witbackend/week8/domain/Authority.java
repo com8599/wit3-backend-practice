@@ -17,6 +17,6 @@ import javax.persistence.Table;
 public class Authority {
 
     @Id
-    @Column(name = "authority_name", length = 50)
+    @Column(name = "authority_name", length = 50)    // 컬럼 네임 삭제
     private String authorityName;
 }

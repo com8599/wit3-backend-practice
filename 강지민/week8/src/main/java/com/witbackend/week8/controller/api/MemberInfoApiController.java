@@ -14,7 +14,7 @@ import java.io.IOException;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api")
+@RequestMapping("/api")     // requestmapping 이름은 controller 이름과 통일해주세요.
 public class MemberInfoApiController {
     private final MemberInfoService memberInfoService;
 
@@ -23,7 +23,7 @@ public class MemberInfoApiController {
         return ResponseEntity.ok("hello");
     }
 
-    @PostMapping("/test-redirect")
+    @PostMapping("/test-redirect")      // 불필요한 api 삭제
     public void testRedirect(HttpServletResponse response) throws IOException {
         response.sendRedirect("/api/user");
     }
@@ -37,6 +37,7 @@ public class MemberInfoApiController {
 
     @GetMapping("/user")
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
+    // admin은 user권한도 포함하고 있게 되므로 user만 넣어주세요
     public ResponseEntity<MemberInfoDto> getMyUserInfo(HttpServletRequest request) {
         return ResponseEntity.ok(memberInfoService.getMyUserWithAuthorities());
     }

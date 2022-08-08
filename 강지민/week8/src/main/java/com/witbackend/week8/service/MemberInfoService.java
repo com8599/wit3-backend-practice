@@ -68,12 +68,13 @@ public class MemberInfoService {
         findTokenEntity.changeToken(newToken);
 
         return TokenDto.builder()
-                .token("Bearer " + tokenProvider.createToken(authentication))
+                .token("Bearer " + tokenProvider.createToken(authentication))   // Bearer 은 프론트와 백엔드가 약속한 문구이므로 불필요하므로 제거
                 .refreshToken("Bearer " + newToken)
                 .build();
     }
 
     // "Bearer " 되있는 토큰을 순수 토큰으로 변환
+    // -> Bearer 삭제
     private String resolveToken(String token) {
         if (token.startsWith("Bearer ")) {
             return token.substring(7);

@@ -15,20 +15,21 @@ import java.util.Set;
 public class MemberInfo {
 
     @Id
-    @Column(name = "member_info_id")
+    @Column(name = "member_info_id")    // 컬럼 네임 삭제
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long memberInfoId;    // UUID or ObjectId
 
-    @Column(name = "username", length = 50, unique = true)
+    @Column(name = "username", length = 50, unique = true)    // 컬럼 네임 삭제
     private String username;    // rename to familiar name
+    // loginId나 email로 바꿔주세요
 
-    @Column(name = "password", length = 100)
+    @Column(name = "password", length = 100)    // 컬럼 네임 삭제
     private String password;
 
-    @Column(name = "nickname", length = 50)
+    @Column(name = "nickname", length = 50)    // 컬럼 네임 삭제
     private String nickname;
 
-    @Column(name = "activated")
+    @Column(name = "activated")    // 컬럼 네임 삭제
     private boolean activated;
 
     @ManyToMany

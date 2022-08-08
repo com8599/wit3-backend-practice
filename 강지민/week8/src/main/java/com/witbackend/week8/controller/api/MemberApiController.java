@@ -17,7 +17,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(value = "members")
+@RequestMapping(value = "members")      // 불필요한 crud 삭제 및 통합
 public class MemberApiController {
     private final MemberService memberService;
 
