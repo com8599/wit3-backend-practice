@@ -1,5 +1,6 @@
 package com.witbackend.week8.dto.login;
 
+import com.witbackend.week8.domain.Role;
 import lombok.*;
 
 @Getter
@@ -8,5 +9,5 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AuthorityDto {
-    private String authorityName;
+    private Role authorityName;
 }

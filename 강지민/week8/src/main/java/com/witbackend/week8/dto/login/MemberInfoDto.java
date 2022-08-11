@@ -19,7 +19,7 @@ public class MemberInfoDto {
 
     @NotNull
     @Size(min = 3, max = 50)
-    private String username;
+    private String email;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @NotNull
@@ -36,7 +36,7 @@ public class MemberInfoDto {
         if(memberInfo == null) return null;
 
         return MemberInfoDto.builder()
-                .username(memberInfo.getUsername())
+                .email(memberInfo.getEmail())
                 .nickname(memberInfo.getNickname())
                 .authorityDtoSet(memberInfo.getAuthorities().stream()
                         .map(authority -> AuthorityDto.builder().authorityName(authority.getAuthorityName()).build())

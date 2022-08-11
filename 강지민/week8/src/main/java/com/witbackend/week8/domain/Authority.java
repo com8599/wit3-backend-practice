@@ -2,10 +2,7 @@ package com.witbackend.week8.domain;
 
 import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "authority")
@@ -17,6 +14,6 @@ import javax.persistence.Table;
 public class Authority {
 
     @Id
-    @Column(name = "authority_name", length = 50)    // 컬럼 네임 삭제
-    private String authorityName;
+    @Enumerated(EnumType.STRING)
+    private Role authorityName;
 }

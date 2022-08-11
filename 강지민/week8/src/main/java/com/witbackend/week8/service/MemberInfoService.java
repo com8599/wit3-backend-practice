@@ -3,6 +3,7 @@ package com.witbackend.week8.service;
 import com.witbackend.week8.domain.Authority;
 import com.witbackend.week8.domain.MemberInfo;
 import com.witbackend.week8.domain.RefreshToken;
+import com.witbackend.week8.domain.Role;
 import com.witbackend.week8.dto.login.MemberInfoDto;
 import com.witbackend.week8.dto.login.RefreshTokenRequestDto;
 import com.witbackend.week8.dto.login.TokenDto;
@@ -19,6 +20,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 
+import static com.witbackend.week8.domain.Role.ROLE_USER;
+
 @Service
 @RequiredArgsConstructor
 public class MemberInfoService {
@@ -29,16 +32,16 @@ public class MemberInfoService {
 
     @Transactional
     public MemberInfoDto signup(MemberInfoDto memberInfoDto) {
-        if (memberInfoRepository.findOneWithAuthoritiesByUsername(memberInfoDto.getUsername()).orElse(null) != null) {
+        if (memberInfoRepository.findOneWithAuthoritiesByEmail(memberInfoDto.getEmail()).orElse(null) != null) {
             throw new DuplicateMemberException("이미 가입되어 있는 유저입니다.");
         }
 
         Authority authority = Authority.builder()
-                .authorityName("ROLE_USER")     // enum 화 해주세요
+                .authorityName(ROLE_USER)     // enum 화 해주세요
                 .build();
 
         MemberInfo memberInfo = MemberInfo.builder()
-                .username(memberInfoDto.getUsername())
+                .email(memberInfoDto.getEmail())
                 .password(passwordEncoder.encode(memberInfoDto.getPassword()))
                 .nickname(memberInfoDto.getNickname())
                 .authorities(Collections.singleton(authority))
@@ -51,16 +54,16 @@ public class MemberInfoService {
     // 기존 토큰과 비교하여 없거나 토큰이 일치하지 않으면 재발급
     @Transactional
     public TokenDto reissueAccessToken(RefreshTokenRequestDto refreshTokenRequestDto) {
-        String resolveToken = resolveToken(refreshTokenRequestDto.getRefreshToken());
+        String getToken = refreshTokenRequestDto.getRefreshToken();
 
-        tokenProvider.validateToken(resolveToken);
+        tokenProvider.validateToken(getToken);
 
-        Authentication authentication = tokenProvider.getAuthentication(resolveToken);
+        Authentication authentication = tokenProvider.getAuthentication(getToken);
 
         RefreshToken findTokenEntity = refreshTokenRepository.findByUserId(authentication.getName())
                 .orElseThrow(() -> new RuntimeException("not find refresh Token"));
 
-        if(!resolveToken.equals(findTokenEntity.getToken())) {
+        if(!getToken.equals(findTokenEntity.getToken())) {
             throw new RuntimeException("not equals refresh token");
         }
 
@@ -68,27 +71,18 @@ public class MemberInfoService {
         findTokenEntity.changeToken(newToken);
 
         return TokenDto.builder()
-                .token("Bearer " + tokenProvider.createToken(authentication))   // Bearer 은 프론트와 백엔드가 약속한 문구이므로 불필요하므로 제거
-                .refreshToken("Bearer " + newToken)
+                .token(tokenProvider.createToken(authentication))
+                .refreshToken(newToken)
                 .build();
     }
 
-    // "Bearer " 되있는 토큰을 순수 토큰으로 변환
-    // -> Bearer 삭제
-    private String resolveToken(String token) {
-        if (token.startsWith("Bearer ")) {
-            return token.substring(7);
-        }
-        throw new RuntimeException("not valid refresh token!!");
-    }
-
     @Transactional(readOnly = true)
-    public MemberInfoDto getUserWithAuthorities(String username) {
-        return MemberInfoDto.from(memberInfoRepository.findOneWithAuthoritiesByUsername(username).orElse(null));
+    public MemberInfoDto getUserWithAuthorities(String email) {
+        return MemberInfoDto.from(memberInfoRepository.findOneWithAuthoritiesByEmail(email).orElse(null));
     }
 
     @Transactional(readOnly = true)
     public MemberInfoDto getMyUserWithAuthorities() {
-        return MemberInfoDto.from(SecurityUtil.getCurrentUsername().flatMap(memberInfoRepository::findOneWithAuthoritiesByUsername).orElse(null));
+        return MemberInfoDto.from(SecurityUtil.getCurrentUsername().flatMap(memberInfoRepository::findOneWithAuthoritiesByEmail).orElse(null));
     }
 }

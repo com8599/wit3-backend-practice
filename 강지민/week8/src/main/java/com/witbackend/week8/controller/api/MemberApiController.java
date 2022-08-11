@@ -45,7 +45,6 @@ public class MemberApiController {
 
     // 등록 POST
     @PostMapping
-    @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<MemberResponseDto> postAdd(@RequestBody MemberRequestDto memberRequestDTO) {
         return ResponseEntity.ok(memberService.register(memberRequestDTO));
     }
