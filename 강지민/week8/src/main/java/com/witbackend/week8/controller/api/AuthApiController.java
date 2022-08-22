@@ -9,7 +9,6 @@ import com.witbackend.week8.jwt.TokenProvider;
 import com.witbackend.week8.repository.RefreshTokenRepository;
 import com.witbackend.week8.service.MemberInfoService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
