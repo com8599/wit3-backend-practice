@@ -29,17 +29,14 @@ public class TokenProvider implements InitializingBean {
 
     private final String secret;
     private final Long tokenValidityInMilliseconds;
-    private final Long refreshTokenValidityInMs;
 
     private Key key;
 
     public TokenProvider(
             @Value("${jwt.secret}") String secret,
-            @Value("${jwt.token-validity-in-seconds}") Long tokenValidityInSeconds,
-            @Value("${jwt.refresh-token-validity-in-sec}") Long refreshTokenValidity) {
+            @Value("${jwt.token-validity-in-seconds}") Long tokenValidityInSeconds) {
         this.secret = secret;
         this.tokenValidityInMilliseconds = tokenValidityInSeconds * 1000;
-        this.refreshTokenValidityInMs = refreshTokenValidity * 1000;
     }
 
     // Initializing을 implements를 해서 afterPropertiesSet을 override한 이유?
@@ -59,25 +56,6 @@ public class TokenProvider implements InitializingBean {
         // 만료 시간
         long now = (new Date()).getTime();
         Date validity = new Date(now + this.tokenValidityInMilliseconds);
-
-        // 토큰 생성
-        return Jwts.builder()
-                .setSubject(authentication.getName())
-                .claim(AUTHORITIES_KEY, authorities)
-                .signWith(key, SignatureAlgorithm.HS512)
-                .setExpiration(validity)
-                .compact();
-    }
-
-    // refreshToken 생성
-    public String createRefreshToken(Authentication authentication) {
-        String authorities = authentication.getAuthorities().stream()
-                .map(GrantedAuthority::getAuthority)
-                .collect(Collectors.joining(","));
-
-        // 만료 시간
-        long now = (new Date()).getTime();
-        Date validity = new Date(now + this.refreshTokenValidityInMs);
 
         // 토큰 생성
         return Jwts.builder()

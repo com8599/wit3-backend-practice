@@ -1,6 +1,5 @@
 package com.witbackend.week6;
 
-import com.witbackend.week8.repository.MemberRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

@@ -1,66 +1,52 @@
 package com.witbackend.week8.controller.api;
 
-import com.witbackend.week8.domain.SearchCondition;
-import com.witbackend.week8.domain.SearchType;
-import com.witbackend.week8.dto.MemberDto.MemberRequestDto;
-import com.witbackend.week8.dto.MemberDto.MemberResponseDto;
-import com.witbackend.week8.dto.MemberDto.MemberUpdateRequestDto;
+import com.witbackend.week8.dto.login.LoginDto;
+import com.witbackend.week8.dto.login.MemberDto;
+import com.witbackend.week8.dto.login.TokenDto;
+import com.witbackend.week8.jwt.JwtFilter;
+import com.witbackend.week8.jwt.TokenProvider;
 import com.witbackend.week8.service.MemberService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.util.StringUtils;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import javax.validation.Valid;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(value = "members")      // 불필요한 crud 삭제 및 통합
+@RequestMapping("member")
 public class MemberApiController {
     private final MemberService memberService;
+    private final TokenProvider tokenProvider;
+    private final AuthenticationManagerBuilder authenticationManagerBuilder;
 
-    // 목록 GET
-    @GetMapping
-    public ResponseEntity<List<MemberResponseDto>> searchList(@RequestParam(defaultValue = "0") int page,
-                                                              Pageable pageable,
-                                                              SearchType searchType,
-                                                              String keyword) {
-        if (StringUtils.hasText(keyword)) {
-            return ResponseEntity.ok(memberService.findSearchMembers(page, pageable, new SearchCondition(keyword, searchType)));
-        } else {
-            return ResponseEntity.ok(memberService.findMembers(page, pageable));
-        }
+    @PostMapping("signup")
+    public ResponseEntity<MemberDto> signup(
+            @Valid @RequestBody MemberDto memberDto
+    ) {
+        return ResponseEntity.ok(memberService.signup(memberDto));
     }
 
-    // 수정 GET
-    @GetMapping("{id}")
-    public ResponseEntity<MemberResponseDto> mod(@PathVariable Long id) {
-        if (memberService.findOne(id) == null) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(memberService.findOne(id));
-    }
+    @PostMapping("authenticate")
+    public ResponseEntity<TokenDto> authorize(@Valid @RequestBody LoginDto loginDto) {
 
-    // 등록 POST
-    @PostMapping
-    public ResponseEntity<MemberResponseDto> postAdd(@RequestBody MemberRequestDto memberRequestDTO) {
-        return ResponseEntity.ok(memberService.register(memberRequestDTO));
-    }
+        UsernamePasswordAuthenticationToken authenticationToken =
+                new UsernamePasswordAuthenticationToken(loginDto.getEmail(), loginDto.getPassword());
 
-    // 수정 PUT
-    @PutMapping("{id}")
-    @PreAuthorize("hasAnyRole('ADMIN')")
-    public ResponseEntity<MemberResponseDto> putMod(@RequestBody MemberUpdateRequestDto memberUpdateRequestDto, @PathVariable Long id) {
-        return ResponseEntity.ok(memberService.updateMember(id, memberUpdateRequestDto));
-    }
+        Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
 
-    // 삭제 DELETE
-    @DeleteMapping("{id}")
-    @PreAuthorize("hasAnyRole('ADMIN')")
-    public ResponseEntity del(@PathVariable Long id) {
-        memberService.delete(id);
-        return ResponseEntity.noContent().build();
+        HttpHeaders httpHeaders = new HttpHeaders();
+
+        String accessToken = tokenProvider.createToken(authentication);
+        httpHeaders.add(JwtFilter.AUTHORIZATION_HEADER, accessToken);
+
+        return new ResponseEntity<>(new TokenDto(accessToken), httpHeaders, HttpStatus.OK);
     }
 }

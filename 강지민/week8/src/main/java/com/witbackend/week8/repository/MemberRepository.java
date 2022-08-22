@@ -1,13 +1,12 @@
 package com.witbackend.week8.repository;
 
 import com.witbackend.week8.domain.Member;
-import com.witbackend.week8.dto.MemberDto.MemberResponseDto;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.List;
+import java.util.Optional;
 
 public interface MemberRepository extends JpaRepository<Member, Long> {
-
-    List<MemberResponseDto> findAllBy(Pageable pageable);
+    @EntityGraph(attributePaths = "authorities")
+    Optional<Member> findOneWithAuthoritiesByEmail(String email);
 }

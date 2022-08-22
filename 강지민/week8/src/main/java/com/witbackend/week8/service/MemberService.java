@@ -1,60 +1,54 @@
 package com.witbackend.week8.service;
 
+import com.witbackend.week8.domain.Authority;
 import com.witbackend.week8.domain.Member;
-import com.witbackend.week8.domain.SearchCondition;
-import com.witbackend.week8.dto.MemberDto.MemberRequestDto;
-import com.witbackend.week8.dto.MemberDto.MemberResponseDto;
-import com.witbackend.week8.dto.MemberDto.MemberUpdateRequestDto;
-import com.witbackend.week8.repository.MemberCustomRepository;
+import com.witbackend.week8.dto.login.MemberDto;
+import com.witbackend.week8.exception.DuplicateMemberException;
 import com.witbackend.week8.repository.MemberRepository;
+import com.witbackend.week8.util.SecurityUtil;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Collections;
+
+import static com.witbackend.week8.domain.Role.ROLE_USER;
 
 @Service
 @RequiredArgsConstructor
 public class MemberService {
     private final MemberRepository memberRepository;
-    private final MemberCustomRepository memberCustomRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    // RequestDTO -> Entity로 변환
-    public MemberResponseDto register(MemberRequestDto memberRequestDTO) {
-        Member member = memberRequestDTO.toEntity();
-        memberRepository.save(member);
-        return new MemberResponseDto(member);
+    @Transactional
+    public MemberDto signup(MemberDto memberDto) {
+        if (memberRepository.findOneWithAuthoritiesByEmail(memberDto.getEmail()).orElse(null) != null) {
+            throw new DuplicateMemberException("이미 가입되어 있는 유저입니다.");
+        }
+
+        Authority authority = Authority.builder()
+                .authorityName(ROLE_USER)
+                .build();
+
+        Member member = Member.builder()
+                .email(memberDto.getEmail())
+                .password(passwordEncoder.encode(memberDto.getPassword()))
+                .nickname(memberDto.getNickname())
+                .authorities(Collections.singleton(authority))
+                .activated(true)
+                .build();
+
+        return MemberDto.from(memberRepository.save(member));
     }
 
-    // List<Member> -> List<MemberResponseDTO>로 변환
-    public List<MemberResponseDto> findMembers(int page, Pageable pageable) {
-        return memberRepository.findAllBy(PageRequest.of(page, 3));
+    @Transactional(readOnly = true)
+    public MemberDto getUserWithAuthorities(String email) {
+        return MemberDto.from(memberRepository.findOneWithAuthoritiesByEmail(email).orElse(null));
     }
 
-    // 검색 포함 목록 보기
-    public List<MemberResponseDto> findSearchMembers(int page, Pageable pageable, SearchCondition condition) {
-        List<Member> search = memberCustomRepository.search(condition, PageRequest.of(page, 3));
-        return search.stream().map(MemberResponseDto::new).collect(Collectors.toList());
-    }
-
-    public MemberResponseDto findOne(Long id) {
-        Member member = memberRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다. id = " + id));
-        return new MemberResponseDto(member);
-    }
-
-    public MemberResponseDto updateMember(Long id, MemberUpdateRequestDto memberUpdateRequestDto) {
-        Member member = memberRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다. id = " + id));
-
-        member.update(memberUpdateRequestDto.getEmail(), memberUpdateRequestDto.getPassword());
-
-        memberRepository.save(member);
-
-        return new MemberResponseDto(member);
-    }
-
-    public void delete(Long id) {
-        memberRepository.deleteById(id);
+    @Transactional(readOnly = true)
+    public MemberDto getMyUserWithAuthorities() {
+        return MemberDto.from(SecurityUtil.getCurrentUsername().flatMap(memberRepository::findOneWithAuthoritiesByEmail).orElse(null));
     }
 }
