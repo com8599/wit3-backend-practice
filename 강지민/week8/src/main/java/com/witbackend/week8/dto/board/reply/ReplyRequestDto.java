@@ -17,6 +17,7 @@ public class ReplyRequestDto {
     public Reply toEntity() {
         return Reply.builder()
                 .body(body)
+                .board(board)
                 .build();
     }
 }
